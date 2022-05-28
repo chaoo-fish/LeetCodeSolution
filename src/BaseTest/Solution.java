@@ -10,24 +10,36 @@ class Solution {
         System.out.println("hello");
     }
 
-    public int leastBricks(List<List<Integer>> wall) {
-        int n = wall.size();
-        HashMap<Integer,Integer>  map = new HashMap<>();
-        for (int i = 0, sum = 0; i < n; i++,sum = 0) {
-            for(int cur : wall.get(i)) {
-                sum += cur;
-                // 记录缝隙
-                map.put(sum, map.getOrDefault(sum,0)+1);
-            }       
-            // 移除最后一个,因为最左边的也不算
-            map.remove(sum);     
+    public int findCircleNum(int[][] isConnected) {
+        /**
+         * DFS
+         */
+        // 顶点数量
+        int n =  isConnected.length;
+        // 判断一个顶点是否访问
+        boolean[] visited = new boolean[n];
+        int cnt = 0;
+        for (int i = 0; i < n; i++) {
+            if(!visited[i]) {
+                cnt++;
+                // 遍历与i相邻的顶点
+                dfs(i,isConnected,visited);
+            }        
         }
-        int ans = n;
-        for (int u : map.keySet()) {
-            int cnt = map.get(u); 
-            ans = Math.min(ans, n - cnt);
-        }
+        return cnt;
+    }
+
+    private void dfs(int i ,int[][] isConnected, boolean[] visited) {
+        // 对节点进行标记--访问过了
+        visited[i] = true;
         
-        return ans;
+
+        for (int j = 0; j < isConnected.length; j++) {
+            if(isConnected[i][j] == 1 && !visited[j] ) {
+                // 继续遍历与i相邻的顶点
+                dfs(j, isConnected, visited);
+            }
+        }
+
     }
 }
