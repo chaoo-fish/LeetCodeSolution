@@ -1,31 +1,27 @@
 package leetcode.editor.cn;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * 通用模板
  */
 public class Soultion {
     public static void main(String[] args) {
     }
-
-    public int findClosest(String[] words, String word1, String word2) {
-        int res =  100000;
-        int start =  100000;
-        int end =  100000;
-        for(int i = 0; i < words.length; i++) {
-            String cur = words[i];
-            if(cur.equals(word1)){
-                start = i;
-            } else if(cur.equals(word2)){
-                end = i;
+    public int canCompleteCircuit(int[] gas, int[] cost) {
+        int totalGas = 0;
+        int curGas = 0;
+        int start = 0;
+        for (int i = 0; i < gas.length; i++) {
+            totalGas += gas[i] - cost[i];
+            curGas += gas[i] - cost[i];
+            if (curGas < 0) {
+                start = i + 1;
+                curGas = 0;
             }
-            res = Math.min(res,Math.abs(end - start));
         }
-        return res;
+        if (totalGas < 0) return -1;
+
+        return start;
     }
+
 }
