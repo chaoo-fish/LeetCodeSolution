@@ -59,29 +59,25 @@ public class Soultion79 {
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         int[][] DIRECTIONS = {{-1, 0}, {0, -1}, {0, 1}, {1, 0}};
-        int rows;
-        int cols;
-        int len;
-        boolean[][] visited;
+        int rows; // 行
+        int cols; // 列
+        int len; // word长度
+        boolean[][] visited; // 记录是否走过
         char[] charArray;
         char[][] board;
 
         public boolean exist(char[][] board, String word) {
             rows = board.length;
-            if (rows == 0) {
-                return false;
-            }
+            if (rows == 0) return false;
             cols = board[0].length;
-            visited = new boolean[rows][cols];
-
             len = word.length();
+
             charArray = word.toCharArray();
+            visited = new boolean[rows][cols];
             this.board = board;
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < cols; j++) {
-                    if (dfs(i, j, 0)) {
-                        return true;
-                    }
+                    if (dfs(i, j, 0)) return true;
                 }
             }
             return false;
@@ -90,24 +86,24 @@ public class Soultion79 {
         private boolean dfs(int x, int y, int begin) {
             // 截止条件
             if (begin == len - 1) {
+                // 走到最后一步了,前面都匹配上了,只需要看最后一个能不能匹配上就行
                 return board[x][y] == charArray[begin];
             }
+
             if (board[x][y] == charArray[begin]) {
                 visited[x][y] = true;
                 for (int[] direction : DIRECTIONS) {
                     int newX = x + direction[0];
-                    int newY = y + direction[1];
+                    int newY = y + direction[0];
                     if (inArea(newX,newY) && !visited[newX][newY]){
-                        if (dfs(newX,newY,begin + 1)) {
-                            return true;
-                        }
+                        if (dfs(newX,newY,begin + 1)) return true;
                     }
                 }
+                // 回溯
                 visited[x][y] = false;
             }
             return false;
         }
-
 
         private boolean inArea(int x, int y) {
             return x >= 0 && x < rows && y >= 0 && y < cols;
