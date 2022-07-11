@@ -1,17 +1,24 @@
 package leetcode.editor.cn;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 /**
  * 通用模板
  */
 public class Soultion {
+
     public static void main(String[] args) {
+        System.out.println('[' + 0);
+        System.out.println(']' + 0);
+        System.out.println('{' + 0);
     }
 
-    public List<List<Integer>> minimumAbsDifference(int[] arr) {
-        // 先排序 默认牲畜
-        Arrays.sort(arr);
-        return null;
+    class Solution {
+        public boolean isValid(String s) {
+            Deque<Character> deque = new ArrayDeque<>();
+
+            return false;
+        }
     }
 }

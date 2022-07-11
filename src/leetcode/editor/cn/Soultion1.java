@@ -45,30 +45,49 @@
 /**
  * @author sanshisi
  */
- 
+
 package leetcode.editor.cn;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Arrays;
 
 public class Soultion1 {
     public static void main(String[] args) {
         Solution solution = new Soultion1().new Solution();
     }
-    
+
     //leetcode submit region begin(Prohibit modification and deletion)
-class Solution {
-    public int[] twoSum(int[] nums, int target) {
-        Map<Integer,Integer> map = new HashMap<>();
-        for (int i = 0; i < nums.length; i++) {
-            if (map.containsKey(target - nums[i])) {
-                return new int[]{map.get(target - nums[i]),i};
+    class Solution {
+        int len = 0;
+        int[] nums;
+
+        public int[] twoSum(int[] nums, int target) {
+            Arrays.sort(nums);
+            len = nums.length;
+            this.nums = nums;
+            for (int i = 0; i < nums.length; i++) {
+                int index = binarySearch(target - nums[i]);
+                // 二分查找
+                if ((index = index == i ? -1 : 1) != -1) {
+                    return new int[]{i, index};
+                }
             }
-            map.put(nums[i],i);
+            return new int[0];
         }
-        return new int[0];
-    }
-}
+
+        private int binarySearch(int target) {
+            // 查找右边界,向左靠
+            int l = 0, r = len - 1, mid = 0;
+            while (l < r) {
+                mid = l + (r - l + 1 >> 1);
+                if (nums[mid] <= target) {
+                    l = mid;
+                } else {
+                    r = mid - 1;
+                }
+            }
+            return l;
+        }
 //leetcode submit region end(Prohibit modification and deletion)
 
+    }
 }
