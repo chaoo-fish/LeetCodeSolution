@@ -33,10 +33,6 @@
 
 package leetcode.editor.cn;
 
-import java.util.Arrays;
-import java.util.PriorityQueue;
-import java.util.Properties;
-
 public class Soultion215 {
     public static void main(String[] args) {
         Solution solution = new Soultion215().new Solution();
@@ -45,48 +41,42 @@ public class Soultion215 {
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         public int findKthLargest(int[] nums, int k) {
-            // 3.partition算法
-        /*
-            这个算法是一种分类算法,将一个序列分成两个部分
-         */
-            int len = nums.length;
-            int left = 0;
-            int right = len - 1;
-            int target = len - k;
+            // 使用快排
+            int index = partition(nums, 0, nums.length - 1);
+            return nums[nums.length - k];
+        }
 
-            while (true) {
-                int index = partition(nums, left, right);
-                if (index == target) {
-                    return index;
-                } else if (index > target) {
-                    right = index - 1;
-                } else {
-                    left = index + 1;
+        public int partition(int[] arr, int l, int r) {
+            // 快排
+            if (l >= r) return l; // 边界
+            swap(arr, l, (int) (l + Math.random() * (r - l + 1)));// 随机一个数和首位交换
+            int v = arr[l]; // 中间数
+            int lt = l;
+            int gt = r + 1;
+            int i = l + 1;
+            while (i < gt) {
+                if (arr[i] > v) {
+                    swap(arr,i,lt + 1);
+                    lt++;
+                    i++;
+                } else if (arr[i] < v) {
+                    swap(arr,i,gt - 1);
+                    gt--;
+                }  else {
+                    i++;
                 }
             }
-
-
+            swap(arr, l, lt);
+            return lt;
         }
 
-        private int partition(int[] nums, int left, int right) {
-            int pivot = nums[left];
-            int j = left;
-            for (int i = left + 1; i <= right; i++) {
-                if (nums[i] < pivot){
-                    j++;
-                    swap(nums,j,i);
-                }
-            }
-            swap(nums,j,left);
-            return j;
+        public void swap(int[] nums, int a, int b) {
+            //异或版本的交换需要确保两个数不相等
+            if (a == b)
+                return;
+            nums[a] ^= nums[b]; // a 1 b 2    a = 1 ^ 2
+            nums[b] ^= nums[a]; // b = 1 ^ 2 ^ 2 = 1
+            nums[a] ^= nums[b]; // a = 1 ^ 2 ^ 1 = 2
         }
-
-        private void swap(int[] nums, int index1, int index2) {
-            int temp = nums[index1];
-            nums[index1] = nums[index2];
-            nums[index2] = temp;
-        }
-
     }
-
 }
