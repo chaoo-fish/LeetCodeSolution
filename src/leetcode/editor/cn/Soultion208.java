@@ -54,42 +54,42 @@ public class Soultion208 {
     //leetcode submit region begin(Prohibit modification and deletion)
     class Trie {
         class TireNode{
-            boolean end;
             TireNode[] tns = new TireNode[26];
+            boolean end; // true 代表是单词结尾
         }
 
-        TireNode root;
+        TireNode node;
 
         public Trie() {
-            root = new TireNode();
+            node = new TireNode();
         }
 
         public void insert(String s) {
-            TireNode p = root;
+            TireNode temp = node;
             for (int i = 0; i < s.length(); i++) {
-                int u = s.charAt(i) - 'a'; // 找到每个字母位置
-                if (p.tns[u] == null) p.tns[u] = new TireNode();
-                p = p.tns[u];
+                int index = s.charAt(i) - 'a';
+                if (temp.tns[index] == null) temp.tns[index] = new TireNode();
+                temp = temp.tns[index];
             }
-            p.end = true;
+            temp.end = true;
         }
 
         public boolean search(String s) {
-            TireNode p = root;
+            TireNode temp = node;
             for (int i = 0; i < s.length(); i++) {
-                int u = s.charAt(i) - 'a';
-                if (p.tns[u] == null) return false;
-                p = p.tns[u];
+                int index = s.charAt(i) - 'a';
+                if (temp.tns[index] == null) return false;
+                temp = temp.tns[index];
             }
-            return p.end;
+           return temp.end;
         }
 
         public boolean startsWith(String s) {
-            TireNode p = root;
+            TireNode temp = node;
             for (int i = 0; i < s.length(); i++) {
-                int u = s.charAt(i) - 'a';
-                if (p.tns[u] == null) return false;
-                p = p.tns[u];
+                int index = s.charAt(i) - 'a';
+                if (temp.tns[index] == null) return false;
+                temp = temp.tns[index];
             }
             return true;
         }

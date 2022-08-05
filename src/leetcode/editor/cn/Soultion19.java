@@ -51,40 +51,37 @@ public class Soultion19 {
         Solution solution = new Soultion19().new Solution();
     }
     //leetcode submit region begin(Prohibit modification and deletion)
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode() {}
- *     ListNode(int val) { this.val = val; }
- *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
- * }
- */
-class Solution {
-    public ListNode removeNthFromEnd(ListNode head, int n) {
-        if (head == null || head.next == null) {
-            return null;
-        }
-        ListNode right = head;
-        ListNode left = head;
-        for (int i = 0; i < n; i++) {
-            right = right.next;
-        }
-        if (right == null){
-            return head.next;
-        }
 
-        while (right.next != null) {
-            right = right.next;
-            left = left.next;
+    /**
+     * Definition for singly-linked list.
+     * public class ListNode {
+     * int val;
+     * ListNode next;
+     * ListNode() {}
+     * ListNode(int val) { this.val = val; }
+     * ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+     * }
+     */
+    class Solution {
+        public ListNode removeNthFromEnd(ListNode head, int n) {
+            // 快慢指针  1 2 3
+            ListNode left = head;
+            ListNode right = head;
+            for (int i = 0; i < n; i++) {
+                right = right.next;
+            }
+            // 删除的元素在头部
+            if (right == null) {
+                return head.next;
+            }
+            while (right.next == null) {
+                left = left.next;
+                right = right.next;
+            }
+            left.next = left.next.next;
+            return head;
         }
-        ListNode del = left.next;
-        left.next = del.next;
-        del.next = null;
-        return head;
     }
-}
 //leetcode submit region end(Prohibit modification and deletion)
 
 }

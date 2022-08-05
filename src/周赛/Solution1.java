@@ -1,23 +1,24 @@
 package 周赛;
 
-import java.util.Arrays;
+import leetcode.editor.cn.Soultion1;
 
 class Solution1 {
     public static void main(String[] args) {
+        Soultion1 s1 = new Soultion1();
     }
 
-    public int fillCups(int[] amount) {
-        Arrays.sort(amount);
-        // 一直用少的去消耗多的
-        int ans = 0;
-        while (amount[2] != 0) {
-            if (amount[1] == 0 && amount[0] == 0) return ans += amount[2];
-            amount[2]--;
-            amount[1]--;
-            ans++;
-            Arrays.sort(amount);
+    public int[] numberOfPairs(int[] nums) {
+        int[] arr = new int[103];
+        for (int num : nums) {
+            arr[num]++;
         }
-        return ans;
+        int count = 0;
+        int last =0 ;
 
+        for (int i : arr) {
+            count += i / 2;
+            last += i % 2;
+        }
+        return  new int[]{count,last};
     }
 }

@@ -41,43 +41,101 @@ public class Soultion82 {
         Solution solution = new Soultion82().new Solution();
     }
     //leetcode submit region begin(Prohibit modification and deletion)
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode() {}
- *     ListNode(int val) { this.val = val; }
- *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
- * }
- */
-class Solution {
-    public ListNode deleteDuplicates(ListNode head) {
-        if (head == null || head.next == null) {
-            return head;
-        }
-        ListNode dummy = new ListNode(0); // 虚拟头结点
-        dummy.next = head;
 
-        ListNode pre = dummy; // 用来接受不重复节点的
-        ListNode cur = head; // 用来判断节点相等的指针
-
-        while (cur != null && cur.next != null) {
-            if (cur.val != cur.next.val) {
-                pre = cur;
-                cur = cur.next;
-            } else {
-                ListNode next = cur.next.next;
-                while (next != null && next.val == cur.val) {
-                    next = next.next;
-                }
-                pre.next = next;
-                cur = next;
+    /**
+     * Definition for singly-linked list.
+     * public class ListNode {
+     * int val;
+     * ListNode next;
+     * ListNode() {}
+     * ListNode(int val) { this.val = val; }
+     * ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+     * }
+     */
+    class Solution {
+        public ListNode deleteDuplicates(ListNode head) {
+            if (head == null && head.next == null) {
+                return head;
             }
+
+            ListNode vir = new ListNode(0);
+            vir.next = head;
+
+
+
+            ListNode pre = vir;
+            ListNode cur = pre.next;
+            while (cur != null && cur.next != null) {
+                if (cur.val != cur.next.val) {
+                    pre = cur;
+                    cur = cur.next;
+                } else {
+                    ListNode next = cur.next.next;
+                    while (next != null && next.val == cur.val) {
+                        next = next.next;
+                    }
+                    pre.next = next;
+                    cur = next;
+                }
+            }
+
+
+
+            return vir.next;
         }
-        return dummy.next;
     }
-}
+
+
+//    class Solution {
+//        public ListNode deleteDuplicates(ListNode head) {
+//            if (head == null || head.next == null) {
+//                return head;
+//            }
+//
+//            ListNode vir = new ListNode(0);
+//            vir.next = head;
+//
+//            ListNode pre = vir;
+//            ListNode cur = vir.next;
+//
+//            while (cur != null && cur.next != null) {
+//                if (cur.val != cur.next.val) {
+//                    pre = cur;
+//                    cur = cur.next;
+//                } else {
+//                    ListNode next = cur.next.next;
+//                    while (next != null && next.val == cur.val) {
+//                        next = next.next;
+//                    }
+//                    pre.next = next;
+//                    cur = next;
+//                }
+//            }
+//
+//            return vir.next;
+//
+//        }
+//    }
+
+
+//    class Solution {
+//        public ListNode deleteDuplicates(ListNode head) {
+//            if (head == null || head.next == null) {
+//                return head;
+//            }
+//
+//            if (head.val != head.next.val) {
+//                head.next = deleteDuplicates(head.next);
+//                return head;
+//            } else {
+//                ListNode next = head.next.next;
+//                while (next != null && next.val == head.val) {
+//                    next = next.next;
+//                }
+//                return deleteDuplicates(next);
+//            }
+//        }
+//    }
 //leetcode submit region end(Prohibit modification and deletion)
 
 }

@@ -54,40 +54,36 @@ public class Soultion34 {
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
 
+        // 左查找
         public int leftMargin(int[] nums, int target) {
-            int low = 0;
-            int high = nums.length - 1;
-            while (low < high) {
-                int mid = low + (high - low) / 2;
+            int l = 0, r = nums.length - 1;
+            int mid = 0;
+            while (l < r) {
+                mid = l + ((r - l) >> 1);
+                // 左查找, >= 放宽右边界
                 if (nums[mid] >= target) {
-                    high = mid;
+                    r = mid;
                 } else {
-                    low = mid + 1;
+                    l = mid + 1;
                 }
             }
-            if (nums[low] == target) {
-                return low;
-            } else {
-                return -1;
-            }
+            return nums[r] == target ? r : -1;
         }
 
+        // 右查找
         public int rightMargin(int[] nums, int target) {
-            int low = 0;
-            int high = nums.length - 1;
-            while (low < high) {
-                int mid = (high + low + 1) / 2;
+            int l = 0, r = nums.length - 1;
+            int mid = 0;
+            while (l < r) {
+                mid = l + (r - l + 1 >> 1); // 右边界需要避免死循环
+                // 右查找, <= 放宽左边界
                 if (nums[mid] <= target) {
-                    low = mid;
+                    l = mid;
                 } else {
-                    high = mid - 1;
+                    r = mid - 1;
                 }
             }
-            if (nums[high] == target) {
-                return high;
-            } else {
-                return -1;
-            }
+            return nums[l] == target ? l : -1;
         }
 
         public int[] searchRange(int[] nums, int target) {

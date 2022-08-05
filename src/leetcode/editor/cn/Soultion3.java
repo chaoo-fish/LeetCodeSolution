@@ -59,26 +59,23 @@ public class Soultion3 {
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         public int lengthOfLongestSubstring(String s) {
-            if (s == null || s.length() == 0) {
-                return 0;
+            if (s == null || s.length() == 0) return 0;
+            HashMap<Integer,Integer> map = new HashMap<>(); // 记录字符上一次出现的位置
+
+            int ans = 0; // 记录最大长度
+            int start = 0;
+            for (int i = 0; i < s.length(); i++) {
+                int index = s.charAt(i);
+                // 更新开始字符的位置
+                /**
+                 * 1. 前面没有和这个字符一样的，那么当前开始位置就是start
+                 * 2. 有，当前位置更新为start 和 letter[index] + 1 中较大的一个
+                 */
+                start = Math.max(start,map.getOrDefault(index,0));
+                ans = Math.max(ans, i - start + 1);
+                map.put(index,i);
             }
-            HashMap<Character, Integer> map = new HashMap<>();
-            char[] c = s.toCharArray();
-            int max = 0;
-            for (int start = 0,end = 0; end < s.length(); end++) {
-                if (map.containsKey(c[end])) {
-                    start = Math.max(map.get(c[end]) + 1,start);
-                    /*
-                     j k a b c d a e f g
-                     一直从j-d都没问题
-                     接下来更新遇到相同的值a,更新start位置
-                     可以理解为将start更新为b所在的位置
-                     */
-                }
-                max = Math.max(max,end - start + 1);// 取最大值
-                map.put(c[end],end);
-            }
-            return max;
+            return ans;
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)

@@ -65,38 +65,37 @@ public class Soultion39 {
         int trackSum = 0;
 
         public List<List<Integer>> combinationSum(int[] candidates, int target) {
+            /**
+             * 回溯算法
+             */
             if (candidates.length == 0) {
-                return res;
+                return null;
             }
-            backtrack(candidates, 0, target);
+            backTrack(0, candidates, target);
             return res;
         }
 
-        // 回溯算法主函数
-        void backtrack(int[] nums, int start, int target) {
-            // base case，找到目标和，记录结果
-            if (trackSum == target) {
+        private void backTrack(int start, int[] candidates, int target) {
+            // 回溯终止条件
+            if (target == trackSum) {
                 res.add(new LinkedList<>(track));
                 return;
             }
-            // base case，超过目标和，停止向下遍历
+            //
             if (trackSum > target) {
                 return;
             }
-
-            // 回溯算法标准框架
-            for (int i = start; i < nums.length; i++) {
-                // 选择 nums[i]
-                trackSum += nums[i];
-                track.add(nums[i]);
-                // 递归遍历下一层回溯树
-                // 同一元素可重复使用，注意参数
-                backtrack(nums, i, target);
-                // 撤销选择 nums[i]
-                trackSum -= nums[i];
-                track.removeLast();
+            for (int i = start; i < candidates.length; i++) {
+                // 开启
+                trackSum += candidates[i];
+                track.add(candidates[i]);
+                backTrack(i + 1, candidates, target);
+                // 回溯
+                trackSum -= candidates[i];
+                track.remove(track.size() - 1);
             }
         }
+
     }
 //leetcode submit region end(Prohibit modification and deletion)
 

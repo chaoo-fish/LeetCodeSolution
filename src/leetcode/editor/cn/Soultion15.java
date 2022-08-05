@@ -54,45 +54,44 @@ public class Soultion15 {
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         public List<List<Integer>> threeSum(int[] nums) {
-            List<List<Integer>> lists = new ArrayList<>();
+            List<List<Integer>> res = new ArrayList<>();
             // 排序
             Arrays.sort(nums);
             // 双指针
-            int len = nums.length;
-            for (int i = 0; i < len; i++) {
-                if (nums[i] > 0) { // nums[i] > 0  那么后面的也全都大于零
-                    return lists;
+            for (int i = 0; i < nums.length; i++) {
+                if (nums[i] > 0) { // 后面数都是大于0的
+                    return res;
                 }
                 if (i > 0 && nums[i] == nums[i - 1]) { // 跳过重复的
                     continue;
                 }
 
-                int curr = nums[i];
-                int L = i + 1, R = len - 1;
+                int cur = nums[i];
+                int L = i + 1, R = nums.length - 1;
                 while (L < R) {
-                    int tmp = curr + nums[L] + nums[R];
-                    if (tmp == 0) {
-                        List<Integer> list = new ArrayList<>();
-                        list.add(curr);
-                        list.add(nums[L]);
-                        list.add(nums[R]);
-                        lists.add(list);
-                        while (L < R && nums[L] == nums[L + 1]) { // 跳过重复的
-                            ++L;
+                    int sum = cur + nums[L] + nums[R];
+                    if (sum == 0) {
+                        List<Integer> temp = new ArrayList<Integer>();
+                        temp.add(cur);
+                        temp.add(nums[L]);
+                        temp.add(nums[R]);
+                        res.add(temp);
+                        while (L < R && nums[L] == nums[L + 1]) { // 跳过后面重复的
+                            L++;
                         }
                         while (L < R && nums[R] == nums[R - 1]) {
-                            --R;
+                            R--;
                         }
-                        ++L;
-                        --R;
-                    } else if (tmp < 0) {
-                        ++L;
+                        L++;
+                        R--;
+                    } else if (sum < 0) {
+                        L++;
                     } else {
-                        --R;
+                        R--;
                     }
                 }
             }
-            return lists;
+            return res;
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)

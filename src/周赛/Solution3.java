@@ -1,28 +1,33 @@
 package 周赛;
 
+import java.util.PriorityQueue;
+
 class Solution3 {
     public static void main(String[] args) {
         Solution3 s = new Solution3();
-        String s1 = "_R";
-        String s2 = "L_";
-        s.canChange(s1, s2);
+        String aa = "64333639502";
+        long substring = Long.parseLong(aa.substring(aa.length() - 10),10);
+        System.out.println(substring);
     }
 
-    public boolean canChange(String str, String tar) {
-        char[] s = str.toCharArray();
-        char[] t = tar.toCharArray();
-        int n = s.length;
-        for (int i = 0, j = 0; i < n && j < n; ) {
-            while (i < n - 1 && s[i] == '_') i++;
-            while (j < n - 1 && t[i] == '_') j++;
-            if (s[i] != t[j]) return false;
-            if (s[i] == 'L' && i < j) return false;
-            if (s[i] == 'R' && i > j) return false;
-            i++;
-            j++;
+    public int[] smallestTrimmedNumbers(String[] nums, int[][] queries) {
+        int[] ans = new int[queries.length];
+        for (int i = 0; i < queries.length; i++) {
+            int[] query = queries[i];
+            int index = query[1]; // 移位
+            PriorityQueue<long[]> pq = new PriorityQueue<>();
+            for (int j = 0; j < nums.length; j++) {
+                long subNum = 0;
+                subNum = Long.parseLong(nums[j].substring(nums[j].length() - index));
+                pq.add(new long[]{subNum, j});
+            }
+            for (int i1 = 0; i1 < query[0] - 1; i1++) {
+                pq.remove();
+            }
+            assert pq.peek() != null;
+            ans[i] = (int) pq.peek()[1];
         }
-        return true;
+
+        return ans;
     }
-
-
 }

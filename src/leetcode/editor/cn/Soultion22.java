@@ -44,29 +44,25 @@ public class Soultion22 {
         List<String> res = new ArrayList<>();
 
         public List<String> generateParenthesis(int n) {
-            if (n == 0) {
-                return res;
-            }
-            back(n, "", 0, 0);
+            // 使用递归
+            dfs("", n, n);
             return res;
         }
 
-        private void back(int n, String s, int l, int r) {
-            if (s.length() == n*2) {
+        private void dfs(String s, int l, int r) {
+            // 截止条件
+            if (l == 0 && r == 0) {
                 res.add(s);
                 return;
             }
-            if (l == n) {
-                back(n, s + ")", l, r + 1);
-                return;
+            // 拼左括号的要求:剩余左括号数大于 0
+            if (l > 0) {
+                dfs(s + "(", l - 1, r);
             }
-
-            if (l == r) {
-                back(n, s + "(", l + 1, r);
-                return;
+            // 拼右括号的要求:剩余右括号数大于左括号数
+            if (r > l) {
+                dfs(s + ")", l, r - 1);
             }
-            back(n, s + "(", l + 1, r);
-            back(n, s + ")", l, r + 1);
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)

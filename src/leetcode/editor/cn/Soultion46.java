@@ -49,29 +49,35 @@ public class Soultion46 {
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
+        // 用来接收返回的数据
         List<List<Integer>> res = new LinkedList<>();
 
+        // 判断当前位置有没有走过
+        boolean[] flag;
+
         public List<List<Integer>> permute(int[] nums) {
-            List<Integer> track = new ArrayList<>();
-            for (int num : nums) {
-                track.add(num);
-            }
-            backtrack(0,nums, track);
+            List<Integer> track = new LinkedList<>();
+            flag = new boolean[nums.length];
+            backtrack(0, nums, track);
             return res;
         }
 
         void backtrack(int first, int[] nums, List<Integer> track) {
-            // 写终止条件
+            // 终止条件
             if (first == nums.length) {
                 res.add(new LinkedList<>(track));
                 return;
             }
-            for (int i = first; i < nums.length; i++) {
-                // 做交换
-                Collections.swap(track,first,i);
-                backtrack(first + 1, nums,track);
-                // 撤销交换
-                Collections.swap(track,first,i);
+            for (int i = 0; i < nums.length; i++) {
+                if (!flag[i]) {
+                    // 添加数字
+                    flag[i] = true;
+                    track.add(nums[i]);
+                    backtrack(first + 1, nums, track);
+                    // 回溯
+                    track.remove(track.size() - 1);
+                    flag[i] = false;
+                }
             }
         }
     }

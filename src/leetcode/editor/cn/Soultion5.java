@@ -40,38 +40,43 @@ public class Soultion5 {
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
+        // 动态规划
+
+        /**
+         * 反转字符串,找最大公共子串
+         * @param s
+         * @return
+         */
         public String longestPalindrome(String s) {
-            int len = s.length();
-            if (len < 2) return s;
-
+            if (s.equals("")) return "";
+            int n = s.length();
+            // 初始化数组
+            int[][] arr = new int[n][n];
+            String reverse = new StringBuilder(s).reverse().toString();
             int maxLen = 0;
-            // 数组第一位记录起始位置，第二位记录长度
-            int[] res = new int[2];
-            for (int i = 0; i < s.length() - 1; i++) {
-                int[] odd = centerSpread(s, i, i); // 奇数情况
-                int[] even = centerSpread(s, i, i + 1); // 偶数情况
-                int[] max = odd[1] > even[1] ? odd : even;
-                if (max[1] > maxLen) {
-                    res = max;
-                    maxLen = max[1];
+            int maxEnd = 0;
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    if (s.charAt(i) == reverse.charAt(j)) {
+                        if (i == 0 || j == 0) {
+                            arr[i][j] = 1;  // 初始化为1
+                        } else {
+                            arr[i][j] = arr[i - 1][j - 1] + 1;
+                        }
+                    }
+                    if (arr[i][j] > maxLen) {
+                        int reverseIndex = n - j - 1; // 反转字符串在元字符串中位置
+                        if (reverseIndex + arr[i][j] - 1 == i) { // 判断下标是否能对应上回文
+                            maxLen = arr[i][j];
+                            maxEnd = i;
+                        }
+                    }
                 }
             }
-            return s.substring(res[0], res[0] + res[1]);
+
+            return s.substring(maxEnd - maxLen + 1,maxEnd + 1);
         }
 
-        // 判读回文
-        private int[] centerSpread(String s, int left, int right) {
-            int len = s.length();
-            while (left >= 0 && right <= len) {
-                if (s.charAt(left) == s.charAt(right)) {
-                    left--;
-                    right--;
-                } else {
-                    break;
-                }
-            }
-            return new int[]{left + 1, right - left - 1};
-        }
     }
 //leetcode submit region end(Prohibit modification and deletion)
 
