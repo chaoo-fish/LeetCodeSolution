@@ -1,24 +1,28 @@
 package 周赛;
 
-import leetcode.editor.cn.Soultion1;
-
 class Solution1 {
-    public static void main(String[] args) {
-        Soultion1 s1 = new Soultion1();
+    int sum = 0;
+    int[] nums;
+    boolean flag = false;
+    public boolean canPartition(int[] nums) {
+        this.nums = nums;
+        for (int num : nums) {
+            sum += num;
+        }
+        if ((sum^1) == 1) return false;
+        dfs(0,0);
+        return flag;
     }
 
-    public int[] numberOfPairs(int[] nums) {
-        int[] arr = new int[103];
-        for (int num : nums) {
-            arr[num]++;
+    private void dfs(int index,int count) {
+        // 截止条件
+        if (count == sum >> 1) {
+            flag = true;
+            return;
         }
-        int count = 0;
-        int last =0 ;
-
-        for (int i : arr) {
-            count += i / 2;
-            last += i % 2;
+        if (flag) return;
+        for (int i = index; i < nums.length; i++) {
+            dfs(index+1,count += nums[i]);
         }
-        return  new int[]{count,last};
     }
 }

@@ -1,33 +1,59 @@
 package 周赛;
 
+import java.util.Arrays;
 import java.util.PriorityQueue;
 
 class Solution3 {
     public static void main(String[] args) {
-        Solution3 s = new Solution3();
-        String aa = "64333639502";
-        long substring = Long.parseLong(aa.substring(aa.length() - 10),10);
-        System.out.println(substring);
+//        int[][] mat = {{0, 0, 0}, {1, 0, 1}, {0, 1, 1}, {0, 0, 1}};
+        //[[1,0,1,0,0,0,0,0],[0,0,0,1,1,0,0,1],[0,0,1,1,1,1,1,1],[0,1,0,0,1,1,0,1],[0,1,0,0,1,0,0,0]]
+        //5
+//        int[][] mat = {{1,0,1,1,1,1}, {1,1,0,0,0,0}, {0,0,1,1,0,1}};
+        int[][] mat = {{1,0,1,0,0,0,0,0}, {0,0,0,1,1,0,0,1}, {0,0,1,1,1,1,1,1}, {0,1,0,0,1,1,0,1}, {0,1,0,0,1,0,0,0}};
+        int i = new Solution3().maximumRows(mat, 5);
+        System.out.println("i = " + i);
     }
 
-    public int[] smallestTrimmedNumbers(String[] nums, int[][] queries) {
-        int[] ans = new int[queries.length];
-        for (int i = 0; i < queries.length; i++) {
-            int[] query = queries[i];
-            int index = query[1]; // 移位
-            PriorityQueue<long[]> pq = new PriorityQueue<>();
-            for (int j = 0; j < nums.length; j++) {
-                long subNum = 0;
-                subNum = Long.parseLong(nums[j].substring(nums[j].length() - index));
-                pq.add(new long[]{subNum, j});
+    public int maximumRows(int[][] mat, int cols) {
+        int[] count = new int[mat[0].length];
+        for (int[] m : mat) {
+            int sum = 0;
+            for (int i : m) sum += i;
+            if (sum>cols) continue;
+            for (int i = 0; i < m.length; i++) {
+                count[i] += m[i];
             }
-            for (int i1 = 0; i1 < query[0] - 1; i1++) {
-                pq.remove();
+            System.out.println(Arrays.toString(m));
+        }
+        System.out.println("=========================");
+
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> b[0] - a[0]); //
+        for (int i = 0; i < count.length; i++) {
+            pq.add(new int[]{count[i], i});
+        }
+        while (cols != 0) {
+            int[] re = pq.remove();
+            for (int i = 0; i < mat.length; i++) {
+                mat[i][re[1]] = 0;
             }
-            assert pq.peek() != null;
-            ans[i] = (int) pq.peek()[1];
+            cols--;
         }
 
-        return ans;
+        int res = 0;
+        for (int[] m : mat) {
+            System.out.println(Arrays.toString(m));
+            boolean f= false;
+            for (int i = 0; i < m.length; i++) {
+                if (m[i] == 1){
+                    f = true;
+                    break;
+                }
+            }
+            if (f) continue;
+            res++;
+        }
+
+
+        return res;
     }
 }

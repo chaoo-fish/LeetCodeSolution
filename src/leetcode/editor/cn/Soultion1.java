@@ -48,7 +48,7 @@
 
 package leetcode.editor.cn;
 
-import java.util.Arrays;
+import java.util.*;
 
 public class Soultion1 {
     public static void main(String[] args) {
@@ -57,6 +57,35 @@ public class Soultion1 {
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
+
+
+        public boolean wordBreak(String s, List<String> wordDict) {
+            Deque<Integer> deq = new ArrayDeque<>();
+            deq.getLast();
+            /**
+             * 应当仔细思考
+             * 使用 dp 并没有去做无用操作
+             */
+            Set<String> set = new HashSet<>();
+            for (String ss : wordDict) {
+                set.add(ss);
+            }
+            boolean[] dp = new boolean[s.length() + +1];
+            // 空串为 true
+            dp[0] = true;
+            for (int i = 1; i <= s.length(); i++) { // 裁剪字符串是左闭右开
+                for (int j = 0; j < i; j++) {
+                    if (dp[j] && set.contains(s.substring(j, i))) { // 每次截取的是 j - i  也就是从后面截取的
+                        dp[i] = true;
+                        break;
+                    }
+                }
+            }
+
+
+            return dp[s.length()];
+        }
+
         int len = 0;
         int[] nums;
 
