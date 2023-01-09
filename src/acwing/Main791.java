@@ -7,6 +7,7 @@ import java.util.Scanner;
 /**
  * @Author chaoo
  * @Date: 2022/09/28/ 14:20
+ * 高精度加法
  */
 public class Main791 {
     static ArrayList<Integer> C = new ArrayList<>();

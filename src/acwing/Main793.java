@@ -7,6 +7,7 @@ import java.util.Scanner;
 /**
  * @Author chaoo
  * @Date: 2022/11/19/ 9:23
+ * 高精度乘法
  */
 public class Main793 {
     public static void main(String[] args) {
